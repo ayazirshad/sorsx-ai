@@ -862,6 +862,28 @@ button {
   margin-top: clamp(-60px, -3.1vw, -40px);
 }
 
+.mobile-image {
+  width: 100%;
+  height: auto;
+}
+.mobile-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.desktop-image {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .mobile-image {
+    display: none;
+  }
+  .desktop-image {
+    display: block;
+  }
+}
+
 .slider {
   margin: 30px auto;
   position: relative;
