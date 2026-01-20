@@ -734,6 +734,7 @@ button {
 
 /* white button  */
 .white-button {
+  font-family: var(--font-primary);
   background: #fff;
   color: #101828;
   border: 1px solid #d0d5dd;
@@ -761,6 +762,10 @@ button {
 
 .hero-section {
   margin-top: clamp(100px, 6.7vw, 130px);
+  background-image:
+    linear-gradient(to right, #f2f4f7 1px, transparent 1px),
+    linear-gradient(to bottom, #f2f4f7 1px, transparent 1px);
+  background-size: 120px 120px; /* ye grid size hy */
 }
 
 .text-center {
