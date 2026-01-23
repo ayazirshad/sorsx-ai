@@ -736,7 +736,7 @@ button {
 .white-button {
   font-family: var(--font-primary);
   background: #fff;
-  color: #101828;
+  color: #3d444f;
   border: 1px solid #d0d5dd;
   border-radius: 12px;
   font-size: 16px;
@@ -907,8 +907,8 @@ button {
 }
 
 .slide {
-  height: 50px;
-  width: 100px;
+  height: 20px;
+  /* width: 100px; */
   display: flex;
   align-items: center;
   perspective: 100px;
@@ -1065,6 +1065,7 @@ button {
   font-weight: 600;
   color: var(--color-text-primary);
   line-height: 1.2;
+  letter-spacing: -2%;
   margin: clamp(16px, 2vw, 24px) 0;
 }
 
@@ -1419,7 +1420,7 @@ button {
 }
 
 .feedback-card {
-  background: #f9fafb;
+  background: #f3f5f7;
   border-radius: clamp(12px, 2vw, 24px);
   padding: clamp(16px, 2.4vw, 32px);
   border: 1px solid #eaecf0;
@@ -1773,7 +1774,7 @@ button {
 .footer-top {
   display: flex;
   gap: 80px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
 }
 
 .footer-logo-section {
@@ -1804,7 +1805,7 @@ button {
   flex: 3;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  gap: 26px;
 }
 
 .footer-heading {
