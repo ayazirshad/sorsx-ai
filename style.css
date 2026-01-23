@@ -390,6 +390,7 @@ p {
 /* ========== NAv-container ========== */
 
 .logo {
+  display: block;
   height: 19px;
 }
 
@@ -563,12 +564,13 @@ p {
 }
 
 @media (min-width: 769px) {
-  .dropdown:hover .dropdown-menu {
+  /* Click-based interaction controlled via JS (.open class) */
+  .dropdown.open .dropdown-menu {
     display: flex;
     flex-direction: column;
     gap: 5px;
   }
-  .dropdown:hover .dropdown-icon {
+  .dropdown.open .dropdown-icon {
     transform: rotate(180deg);
   }
 }
@@ -902,15 +904,20 @@ button {
 
 .slide-track {
   display: flex;
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
   gap: 70px;
-  /* animation: scroll 30s linear infinite; */
+  width: calc(200px * 24); /* Large width for scrolling */
+  /* Animation handled via media queries */
 }
 
 .slide {
-  height: 20px;
-  /* width: 100px; */
+  height: 40px; /* Increased from 20px for better visibility */
+  width: 120px; /* Explicit width */
+  flex-shrink: 0; /* Prevent squashing */
   display: flex;
   align-items: center;
+  justify-content: center;
   perspective: 100px;
 }
 
@@ -930,7 +937,42 @@ button {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-130px * 6));
+    /* Adjusted to match Demo page 2 */
+    transform: translateX(calc(-170px * 8));
+  }
+}
+
+/* DESKTOP STYLES (>= 768px) */
+@media (min-width: 768px) {
+  .slide-track {
+    max-width: 1920px; /* Apply max-width only on desktop */
+    width: 100%;
+    justify-content: space-around;
+    animation: none;
+    transform: none;
+  }
+
+  /* Hide the duplicate sets (index 9 to 24) */
+  .slide:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+/* MOBILE STYLES (< 768px) */
+@media (max-width: 767px) {
+  .slide-track {
+    animation: scroll 20s linear infinite;
+    gap: 70px; /* Ensure gap is consistent */
+  }
+
+  /* Ensure all slides are visible on mobile for the loop */
+  .slide:nth-child(n + 9) {
+    display: flex;
+  }
+
+  .slider::before,
+  .slider::after {
+    display: block;
   }
 }
 
@@ -974,28 +1016,24 @@ button {
 }
 
 .logo-stack {
+  display: none; /* Globally hidden */
   width: 100%;
-  display: flex;
   gap: 32px;
   flex-wrap: wrap;
   margin-top: 24px;
   justify-content: center;
 }
 
-@media (min-width: 768px) {
-  .logo-stack {
-    display: none;
-  }
-}
+/* Removed media query that was hiding it on desktop only, as it's now hidden globally */
 
 @media (max-width: 768px) {
   .slider {
-    display: none;
+    display: grid; /* Make slider visible */
   }
 
-  .logo-stack {
+  /* .logo-stack {
     margin-bottom: 30px;
-  }
+  } */ /* Removed */
 
   .hero-image-wrapper img {
     margin-top: 0;
@@ -1400,21 +1438,33 @@ button {
 
 .feedback-container {
   display: flex;
-  align-items: center;
+  align-items: stretch; /* Stretch to match heights */
   justify-content: center;
   gap: 20px;
+  /* aspect-ratio: 1/1; */
   /* max-width: 1100px; */
   margin: 0 auto;
 }
 
 .ceo-photo-wrapper {
-  height: clamp(200px, 16vw, 317px);
-  width: auto;
+  height: clamp(200px, 16vw, 317px); /* Defined height */
+  aspect-ratio: 1/1; /* 1:1 Aspect ratio */
+  width: auto; /* Width follows height */
+  border-radius: 12px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+@media (max-width: 1536px) {
+  /* Removed width override to let height drive width */
+  /* .ceo-photo-wrapper {
+    width: 230px;
+  } */
 }
 
 .ceo-photo {
-  width: auto;
+  width: 100%;
   height: 100%;
+  object-fit: cover; /* Ensure image covers the square area */
   border-radius: clamp(12px, 2vw, 24px);
   display: block;
 }
@@ -1427,6 +1477,9 @@ button {
   width: 100%;
   max-width: clamp(600px, 57vw, 1094px);
   flex: 1;
+  display: flex; /* Ensure content distribution */
+  flex-direction: column;
+  justify-content: space-between; /* Push footer to bottom */
 }
 
 .quote-mark {
@@ -1451,6 +1504,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-top: auto; /* Ensure it sticks to bottom if parent has extra space */
 }
 
 @media (max-width: 1536px) {
@@ -1485,12 +1539,19 @@ button {
   }
 
   .ceo-photo-wrapper {
-    width: 100%;
-    height: auto;
+    width: 100%; /* 100% width on mobile */
+    height: auto; /* Auto height on mobile */
+    aspect-ratio: 1/1; /* Maintain square ratio? Or let it be natural? Assuming square based on previous request, but often width:100% square is too big. */
+    /* Checking user request: "under 768px it will have 100% width" */
+    /* If we strictly follow "1:1 aspect ratio", a 100% width image on mobile will be HUGE vertically. */
+    /* Usually purely responsive images are width: 100%; height: auto; without aspect-ratio forcing. */
+    /* But current CSS has aspect-ratio: 1/1 on the class globally. */
+    /* I will override aspect-ratio here if needed, but let's stick to the cleanest interpretation: 100% width. */
   }
   .ceo-photo {
     width: 100%;
-    height: auto;
+    height: 100%; /* If wrapper has ratio, this fills it. If wrapper is auto height, this needs intrinsic height. */
+    object-fit: cover;
   }
 
   .feedback-card {
@@ -1593,9 +1654,9 @@ button {
   padding-bottom: 24px;
 }
 
-.faq-item.active .faq-question {
+/* .faq-item.active .faq-question {
   color: var(--color-blue);
-}
+} */
 
 @media (max-width: 1024px) {
   .faq-container {
@@ -1812,7 +1873,8 @@ button {
   font-size: 18px;
   font-weight: 600;
   color: var(--color-blue);
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  line-height: 16px;
 }
 
 .footer-links {
@@ -1940,5 +2002,120 @@ button {
 @media (max-width: 370px) {
   .footer-links-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ========== MEGA MENU OVERRIDES ========== */
+
+.dropdown-menu.mega-menu {
+  width: max-content;
+  min-width: 600px;
+  padding: 16px;
+  margin-top: 12px; /* Gap from navbar */
+  background-color: #fff;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+  border: 1px solid #f2f4f7;
+  border-radius: 12px;
+  overflow: visible; /* Allow arrow to stick out */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Tooltip Arrow */
+.dropdown-menu.mega-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%; /* center relative to dropdown */
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  transform: translateX(-50%) rotate(45deg);
+  border-left: 1px solid #f2f4f7;
+  border-top: 1px solid #f2f4f7;
+}
+
+.mega-menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.mega-menu-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Specific styling for mega menu links to override general dropdown link styles if needed */
+.dropdown-menu.mega-menu .mega-menu-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: normal; /* Allow text wrapping for descriptions */
+  transition: background-color 0.2s;
+  background-color: transparent;
+  color: inherit; /* Inherit or force specific color */
+}
+
+.dropdown-menu.mega-menu .mega-menu-item:hover {
+  background-color: var(--color-accent-hover, #f2f4f7);
+}
+
+.mega-menu-icon {
+  width: 40px; /* Container size */
+  height: 40px;
+  flex-shrink: 0;
+  margin-top: 0;
+  object-fit: contain;
+  background-color: #6087f4; /* Blue background */
+  padding: 8px; /* Padding for the icon inside */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.mega-menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mega-menu-title {
+  color: #101828;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.mega-menu-desc {
+  color: #475467;
+  margin: 0;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .dropdown-menu.mega-menu {
+    position: static;
+    min-width: 100%;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    padding: 16px 0; /* Add vertical spacing */
+    margin-top: 0; /* Reset margin */
+    left: auto; /* Reset positioning */
+    transform: none; /* Reset transform */
+  }
+
+  /* Hide arrow on mobile */
+  .dropdown-menu.mega-menu::before {
+    display: none;
+  }
+
+  .mega-menu-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
