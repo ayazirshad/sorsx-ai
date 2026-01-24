@@ -618,7 +618,9 @@ p {
     padding: 12px;
     margin-bottom: 8px;
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .cta-btn-mobile .nav-button {
