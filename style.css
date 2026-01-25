@@ -14,6 +14,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/Inter-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ========== DESIGN TOKENS ========== */
 :root {
   /* Fonts */
@@ -317,7 +325,7 @@ p {
 }
 .text-T1 {
   font-family: var(--font-inter);
-  font-weight: 400;
+  font-weight: 300;
   font-size: 20px;
   line-height: 30px;
 }
@@ -945,7 +953,7 @@ button {
   font-size: clamp(16px, 1.1vw, 20px); /* Fluid 16-20px */
   color: var(--color-text-secondary);
   margin-top: 20px;
-  font-weight: 400;
+  font-weight: 300;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -1018,11 +1026,11 @@ button {
   margin: 0px auto;
   padding: 30px 0;
   position: relative;
-  /* background-image:
+  background-image:
     linear-gradient(to right, #f2f4f7 1px, transparent 1px),
     linear-gradient(to bottom, #f2f4f7 1px, transparent 1px);
-  background-size: 120px 120px; */
-  background: var(--color-bg);
+  background-size: 120px 120px;
+  /* background: var(--color-bg); */
   width: 100%;
   display: grid;
   place-items: center;
@@ -1237,7 +1245,7 @@ button {
 .section-description {
   max-width: 703px;
   font-size: clamp(14px, 1.1vw, 18px);
-  font-weight: 400;
+  font-weight: 300;
   color: var(--color-text-tertiary);
   line-height: 1.6;
 }
@@ -1492,7 +1500,7 @@ button {
 }
 
 .card-desc {
-  font-weight: 400;
+  font-weight: 300;
   font-size: clamp(14px, 1.1vw, 20px);
   line-height: clamp(22px, 1.6vw, 30px);
   color: #181d27;
